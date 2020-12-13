@@ -3,5 +3,6 @@ import Noti from "./Noti";
 import Post from "./Post";
 import Profile from "./Profile";
 import Search from "./Search";
-
-export { Home, Noti, Post, Profile, Search };
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
+export { Home, Noti, Post, Profile, Search, SignIn, SignUp };
