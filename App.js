@@ -27,7 +27,11 @@ export default function App() {
   return (
     <NavigationContainer>
       {isAuth ? (
-        <Tab.Navigator>
+        <Tab.Navigator
+          tabBarOptions={{
+            showLabel: false,
+          }}
+        >
           <Tab.Screen
             name="Home"
             component={Home}
@@ -79,10 +83,7 @@ export default function App() {
           />
         </Tab.Navigator>
       ) : (
-        <AuthStack.Navigator
-          headerMode="screen"
-          screenOptions={{ headerTitleAlign: "center" }}
-        >
+        <AuthStack.Navigator headerMode="none">
           <AuthStack.Screen name="Sign In" component={SignIn} />
           <AuthStack.Screen name="Sign Up" component={SignUp} />
         </AuthStack.Navigator>
