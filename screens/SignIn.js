@@ -1,33 +1,3 @@
-// import React from "react";
-// import { Button, View, Text } from "react-native";
-// import firebase from "firebase/app";
-// import "firebase/auth";
-// const SignIn = ({ navigation }) => {
-//   const signIn = () => {
-//     firebase
-//       .auth()
-//       .signInWithEmailAndPassword("123@gmail.com", "123456")
-//       .then((user) => {
-//         // Signed in
-//         // ...
-//       })
-//       .catch((error) => {
-//         var errorCode = error.code;
-//         var errorMessage = error.message;
-//       });
-//   };
-//   return (
-//     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-//       <Button
-//         title="Go to Sign Up"
-//         onPress={() => navigation.navigate("Sign Up")}
-//       />
-//       <Button title="Sign In With fake acc" onPress={signIn} />
-//     </View>
-//   );
-// };
-
-// export default SignIn;
 import React, { Component } from "react";
 import {
   View,
@@ -70,14 +40,18 @@ export default class LoginScreen extends Component {
           source={require("../assets/images/background.jpg")}
           style={{
             flex: 1,
-            width: null,
-            height: null,
+            width: "100%",
+            height: "auto",
             justifyContent: "center",
           }}
+          imageStyle={
+            {width: "auto",
+            height: "33.6%"}
+          }
         >
           <Text style={styles.greeting}>
             {" "}
-            {`Hello again. \n Welcome back.`}{" "}
+            {``}{" "}
           </Text>
           <View style={styles.errorMessage}>
             {this.state.errorMessage && (
@@ -105,18 +79,16 @@ export default class LoginScreen extends Component {
               ></TextInput>
             </View>
           </View>
+          
           <TouchableOpacity style={styles.button} onPress={this.handleLogin}>
-            <Text style={{ color: "#FFF", fontWeight: "500" }}>Sign in</Text>
+            <Text style={{ color: "white", fontWeight: "500" }}>Log in</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={{ alignSelf: "center", marginTop: 32 }}
             onPress={() => this.props.navigation.navigate("Sign Up")}
           >
-            <Text style={{ color: "#FFF", fontSize: 12 }}>
-              New to SocialApp?{" "}
-              <Text style={{ fontWeight: "500", color: "#8A89FE" }}>
-                Sign up
-              </Text>
+            <Text style={{ color: "#3971bf", fontSize: 12 }}>
+              {`Create New Account `}
             </Text>
           </TouchableOpacity>
         </ImageBackground>
@@ -147,7 +119,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   inputTitle: {
-    color: "#8A89FE",
+    color: "black",
     fontSize: 10,
     textTransform: "uppercase",
   },
@@ -156,11 +128,11 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     height: 40,
     fontSize: 15,
-    color: "#FFF",
+    color: "black",
   },
   button: {
     marginHorizontal: 30,
-    backgroundColor: "#E9446A",
+    backgroundColor: "#3971bf",
     borderRadius: 4,
     height: 52,
     alignItems: "center",

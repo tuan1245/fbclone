@@ -16,17 +16,19 @@ import Fire from "../Fire";
 import * as ImagePicker from "expo-image-picker";
 const firebase = require("firebase");
 require("firebase/firestore");
+import { Camera } from 'expo-camera';
 
 export default class PostScreen extends Component {
   state = {
     text: "",
     image: null,
     user: {},
+    hasPermission:false
   };
 
   unsubscribe = null;
 
-  componentDidMount() {
+  async componentDidMount() {
     const user = this.props.uid || Fire.shared.uid;
     this.unsubscribe = Fire.shared.firestore
       .collection("users")
@@ -34,6 +36,7 @@ export default class PostScreen extends Component {
       .onSnapshot((doc) => {
         this.setState({ user: doc.data() });
       });
+      getPhotoPermission();
   }
 
   componentWillUnmount() {
@@ -49,8 +52,8 @@ export default class PostScreen extends Component {
         const granted = await PermissionsAndroid.request(
           PermissionsAndroid.PERMISSIONS.CAMERA_ROLL,
           {
-            title: "Social App Camera Permission",
-            message: "Social App needs access to your camera",
+            title: "Fbclone Camera Permission",
+            message: "Fbclone needs access to your camera",
             buttonNeutral: "Ask Me Later",
             buttonNegative: "Cancel",
             buttonPositive: "OK",
@@ -61,6 +64,9 @@ export default class PostScreen extends Component {
         alert("We need permission to access your camera roll");
       }
     }
+    const { status } = await Camera.requestPermissionsAsync();
+    this.setState({ hasPermission:status === 'granted' });
+
   };
 
   handlePost = () => {
@@ -74,7 +80,10 @@ export default class PostScreen extends Component {
         alert(error.message);
       });
   };
+  takePicture = async() => {
+    
 
+};
   pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -88,6 +97,7 @@ export default class PostScreen extends Component {
 
   render() {
     return (
+      
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
@@ -107,14 +117,26 @@ export default class PostScreen extends Component {
             multiline={true}
             numberOfLines={4}
             style={{ flex: 1 }}
-            placeholder="Want to share something?"
+            placeholder="What's on your mind?"
             onChangeText={(text) => this.setState({ text })}
             value={this.state.text}
           ></TextInput>
         </View>
+        <View style={
+          {
+            display:"flex",
+            justifyContent:"flex-end",
+            flexDirection:"row"
+          }
+        }>
         <TouchableOpacity style={styles.photo} onPress={this.pickImage}>
+          <Ionicons name="md-images" size={32} color="#D8D9Db" />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.photo} onPress={this.takePicture}>
           <Ionicons name="md-camera" size={32} color="#D8D9Db" />
         </TouchableOpacity>
+        </View>
+        
         <View style={{ marginHorizontal: 32, marginTop: 32, height: 300 }}>
           <Image
             source={{ uri: this.state.image }}
@@ -151,6 +173,6 @@ const styles = StyleSheet.create({
   },
   photo: {
     alignItems: "flex-end",
-    marginHorizontal: 32,
+    marginRight: 30,
   },
 });

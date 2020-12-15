@@ -57,10 +57,14 @@ export default class RegisterScreen extends Component {
           source={require("../assets/images/background.jpg")}
           style={{
             flex: 1,
-            width: null,
-            height: null,
+            width: "100%",
+            height: "auto",
             justifyContent: "center",
           }}
+          imageStyle={
+            {width: "auto",
+            height: 300}
+          }
         >
           <TouchableOpacity
             style={styles.back}
@@ -82,7 +86,7 @@ export default class RegisterScreen extends Component {
             >
               <Text style={styles.greeting}>
                 {" "}
-                {`Hello! \n Sign up to get started.`}{" "}
+                {``}{" "}
               </Text>
               <TouchableOpacity
                 style={styles.avatarPlaceholder}
@@ -147,11 +151,8 @@ export default class RegisterScreen extends Component {
               style={{ alignSelf: "center", marginTop: 32 }}
               onPress={() => this.props.navigation.navigate("Sign In")}
             >
-              <Text style={{ color: "#FFF", fontSize: 12 }}>
+              <Text style={{ color: "#3971bf", fontSize: 12 }}>
                 Already have an account?{" "}
-                <Text style={{ fontWeight: "500", color: "#8A89FE" }}>
-                  Sign in
-                </Text>
               </Text>
             </TouchableOpacity>
           </View>
@@ -183,7 +184,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
   },
   inputTitle: {
-    color: "#8A89FE",
+    color: "black",
     fontSize: 10,
     textTransform: "uppercase",
   },
@@ -192,16 +193,15 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     height: 40,
     fontSize: 15,
-    color: "#FFF",
+    color: "black",
   },
   button: {
     marginHorizontal: 30,
-    backgroundColor: "#E9446A",
+    backgroundColor: "#3971bf",
     borderRadius: 4,
     height: 52,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 16,
   },
   error: {
     color: "#E9446A",
