@@ -26,11 +26,11 @@ export default class PostScreen extends Component {
     hasPermission:false
   };
 
-  unsubscribe = null;
+  tuandeptrai = null;
 
   async componentDidMount() {
     const user = this.props.uid || Fire.shared.uid;
-    this.unsubscribe = Fire.shared.firestore
+    this.tuandeptrai = Fire.shared.firestore
       .collection("users")
       .doc(user)
       .onSnapshot((doc) => {
@@ -40,7 +40,7 @@ export default class PostScreen extends Component {
   }
 
   componentWillUnmount() {
-    this.unsubscribe();
+    this.tuandeptrai();
   }
 
   getPhotoPermission = async () => {
