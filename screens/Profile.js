@@ -170,12 +170,12 @@ export default class ProfileScreen extends Component {
             </View>
           </View> */}
         </ScrollView>
-        {/* <TouchableOpacity
+        <TouchableOpacity
           style={styles.button}
           onPress={() => Fire.shared.signOut()}
         >
           <Text style={{ color: "grey", fontWeight: "500" }}>Log out</Text>
-        </TouchableOpacity> */}
+        </TouchableOpacity>
       </ScrollView>
     );
   }
