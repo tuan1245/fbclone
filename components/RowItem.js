@@ -1,7 +1,9 @@
 import React from "react";
 import { TouchableOpacity, View, Text, StyleSheet, Image } from "react-native";
 import colors from "../constants/colors";
-
+import {
+  Entypo,
+} from "@expo/vector-icons";
 const styles = StyleSheet.create({
   row: {
     paddingHorizontal: 10,
@@ -32,14 +34,14 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     marginRight: 16,
     // alignSelf: 'flex-start'
-    marginTop: 10
+    marginTop: 10,
   },
   contentNoti: {
     // paddingRight: 20,
     flex: 1,
     flexDirection: "column",
     justifyContent: "space-between",
-    height: 80
+    height: 80,
   },
 });
 export const RowItem = ({ item, onPress }) => {
@@ -53,6 +55,9 @@ export const RowItem = ({ item, onPress }) => {
         <Text style={styles.text}>{item.text}</Text>
         <Text style={styles.time}>{item.time}</Text>
       </View>
+      <TouchableOpacity style={{marginTop: 20}} onPress={() => alert("Xoa thong bao")}>
+        <Entypo name="dots-three-horizontal" size={14} color="black" />
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 };

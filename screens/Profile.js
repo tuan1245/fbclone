@@ -16,6 +16,7 @@ import { Entypo } from "@expo/vector-icons";
 import colors from "../constants/colors";
 import { ScrollView } from "react-native-gesture-handler";
 import { OneFriend } from "../components/OneFriend";
+import {BackScreen} from "../components/BackScreen";
 
 const screen = Dimensions.get("window");
 data = [
@@ -55,6 +56,7 @@ export default class ProfileScreen extends Component {
   render() {
     return (
       <ScrollView style={styles.container}>
+        <BackScreen/>
         <ScrollView style={styles.wrapper}>
           <View style={styles.avatarContainer}>
             <Image
@@ -182,6 +184,7 @@ export default class ProfileScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'white'
   },
   wrapper: {
     marginTop: 10,

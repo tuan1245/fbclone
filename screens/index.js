@@ -1,8 +1,12 @@
 import Home from "./Home";
 import Noti from "./Noti";
 import Post from "./Post";
+import Chat from "./Chat";
 import Profile from "./Profile";
 import Search from "./Search";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
-export { Home, Noti, Post, Profile, Search, SignIn, SignUp };
+import Friends from "./Friends";
+import Menu from "./Menu";
+import Help from "./Help";
+export { Home, Noti, Post, Profile, Search, SignIn, SignUp, Chat, Friends, Menu, Help };

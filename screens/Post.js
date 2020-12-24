@@ -9,6 +9,7 @@ import {
   TextInput,
   PermissionsAndroid,
 } from "react-native";
+import colors from "../constants/colors";
 import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
@@ -17,6 +18,7 @@ import * as ImagePicker from "expo-image-picker";
 const firebase = require("firebase");
 require("firebase/firestore");
 import { Camera } from 'expo-camera';
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 export default class PostScreen extends Component {
   state = {
@@ -101,23 +103,27 @@ export default class PostScreen extends Component {
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
           <TouchableOpacity onPress={() => this.props.navigation.goBack()}>
-            <Ionicons name="md-arrow-back" size={24} color="#D8D9DB"></Ionicons>
+            <Ionicons name="md-arrow-back" size={24} color="black"></Ionicons>
           </TouchableOpacity>
+          <Text style={{fontSize: 18}}>Tạo bài viết</Text>
           <TouchableOpacity onPress={this.handlePost}>
-            <Text style={{ fontWeight: "700" }}>Post</Text>
+            <Text style={{ fontWeight: "700", fontSize:18 }}>ĐĂNG</Text>
           </TouchableOpacity>
         </View>
         <View style={styles.inputContainer}>
-          <Image
-            source={{ uri: this.state.user.avatar }}
-            style={styles.avatar}
-          />
+          <View style={styles.userInfor}>
+            <Image
+              source={this.state.user.avatar?{ uri: this.state.user.avatar }:require("../assets/images/avatar.png")}
+              style={styles.avatar}
+            />
+            <Text style={{ fontWeight: "700", fontSize: 20 }}>{this.state.user.name}</Text>
+          </View>
           <TextInput
             autoFocus={true}
             multiline={true}
             numberOfLines={4}
-            style={{ flex: 1 }}
-            placeholder="What's on your mind?"
+            style={styles.textInput}
+            placeholder="Bạn đang nghĩ gì?"
             onChangeText={(text) => this.setState({ text })}
             value={this.state.text}
           ></TextInput>
@@ -130,10 +136,10 @@ export default class PostScreen extends Component {
           }
         }>
         <TouchableOpacity style={styles.photo} onPress={this.pickImage}>
-          <Ionicons name="md-images" size={32} color="#D8D9Db" />
+          <Ionicons name="md-images" size={32} color="green" />
         </TouchableOpacity>
         <TouchableOpacity style={styles.photo} onPress={this.takePicture}>
-          <Ionicons name="md-camera" size={32} color="#D8D9Db" />
+          <Ionicons name="md-camera" size={32} color={colors.facebook} />
         </TouchableOpacity>
         </View>
         
@@ -161,9 +167,15 @@ const styles = StyleSheet.create({
     marginTop: 16,
     borderBottomColor: "#D8D9DB",
   },
-  inputContainer: {
-    margin: 32,
+  userInfor: {
+    marginTop: 15,
+    marginLeft: 10,
     flexDirection: "row",
+  },
+  textInput:{
+    // backgroundColor: "red",
+    paddingLeft: 10,
+    fontSize: 20
   },
   avatar: {
     width: 48,

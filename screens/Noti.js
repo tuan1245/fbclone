@@ -1,6 +1,23 @@
 import React from "react";
-import { View, StyleSheet, FlatList, Text, ScrollView } from "react-native";
+import {
+  View,
+  StyleSheet,
+  FlatList,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+} from "react-native";
 import { RowItem, RowSeparator } from "../components/RowItem";
+import { NavBar } from "../components/NavBar";
+import {
+  Ionicons,
+  Feather,
+  Fontisto,
+  Entypo,
+  MaterialCommunityIcons,
+  AntDesign,
+  MaterialIcons,
+} from "@expo/vector-icons";
 
 notifications = [
   { id: "1", text: "Tuan da thich bai viet cua ban", time: "18:00:00" },
@@ -47,38 +64,57 @@ renderPost = (item) => {
   return (
     <View>
       <RowItem item={item} onPress={() => alert("Notification")} />
-      <RowSeparator />
+      {/* <RowSeparator /> */}
     </View>
   );
 };
-const Noti = () => {
+const Noti = ({ navigation }) => {
   return (
-    <ScrollView style={styles.container}>
-      <Text style={styles.title}>Thông báo</Text>
-      <View styles={styles.containerFlexList}>
-        <FlatList
-          // style={styles.feed}
-          data={notifications}
-          renderItem={({ item }) => renderPost(item)}
-          keyExtractor={(item) => `${item.id}`}
-          // showsVerticalScrollIndicator={false}
-        />
-      </View>
-    </ScrollView>
+    <View>
+      <NavBar />
+      <ScrollView style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Thông báo</Text>
+          <TouchableOpacity onPress={() => navigation.push("Search")}>
+            <Ionicons
+              name="md-search"
+              size={28}
+              color="black"
+              style={{ marginRight: 10 }}
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View styles={styles.containerFlexList}>
+          <FlatList
+            // style={styles.feed}
+            data={notifications}
+            renderItem={({ item }) => renderPost(item)}
+            keyExtractor={(item) => `${item.id}`}
+            // showsVerticalScrollIndicator={false}
+          />
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    backgroundColor: "white",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   containerFlexList: {
     marginTop: 40,
   },
   title: {
-    fontSize: 30,
+    fontSize: 24,
     fontWeight: "bold",
-    // marginLeft: 30,
-    textAlign: "center",
+    marginLeft: 20,
+    //textAlign: "center",
     marginBottom: 10,
   },
 });
