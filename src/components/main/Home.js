@@ -37,6 +37,10 @@ const pathImgs = [
   { id: "103", image: require("../../public/img/assets/tempImage4.jpg") },
   { id: "104", image: require("../../public/img/assets/tempImage1.jpg") },
 ];
+
+const listPost = [
+  { name: "hung", text: "hungdz", image: "../../public/img/assets/avatar.png", timestamp: 1608595200},
+];
 const renderNew = (item) => {
   return (
     //<View>
@@ -49,6 +53,51 @@ const renderNew = (item) => {
   );
 };
 
+renderPost = (post) => {
+  return (
+    <View style={styles.feedItem}>
+      <Image
+        source={
+          
+           require("../../public/img/assets/avatar.png")
+        }
+        style={styles.avatar}
+      />
+      <View style={{ flex: 1 }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <View>
+            <Text style={styles.name}>{post.name ? post.name : "yo"}</Text>
+            <Text style={styles.timestamp}>
+              {moment(post.timestamp).fromNow()}
+            </Text>
+          </View>
+          <Ionicons name="ios-more" size={24} color="#73788B" />
+        </View>
+        <Text style={styles.post}>{post.text}</Text>
+        <Image
+          source={{ uri: post.image }}
+          style={styles.postImage}
+          resizeMode="cover"
+        />
+        <View style={{ flexDirection: "row" }}>
+          <Ionicons
+            name="md-thumbs-up"
+            size={24}
+            color="#737888"
+            style={{ marginRight: 16 }}
+          />
+          <Ionicons name="ios-chatboxes" size={24} color="#73788B" />
+        </View>
+      </View>
+    </View>
+  );
+};
 const Home =  ({ navigation }) => {
 
 
@@ -118,6 +167,15 @@ const Home =  ({ navigation }) => {
           horizontal={true}
         />
       </View>
+
+
+      <FlatList
+      style={styles.feed}
+      data={listPost}
+      renderItem={({ item }) => this.renderPost(item)}
+      keyExtractor={(item) => `${item.timestamp}`}
+      showsVerticalScrollIndicator={false}
+    />
     </ScrollView>
     //<FlatList
     //   style={styles.feed}

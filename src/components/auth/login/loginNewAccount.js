@@ -32,6 +32,10 @@ const LoginNewAccount = (props) => {
             setLoading(false);
             props.navigation.replace("Home");
         }
+        else if (props.auth.error === undefined){
+            setLoading(false);
+            alert("loi")
+        }
     }, [props.auth])
 
     const onPressLogin = (e) => {
