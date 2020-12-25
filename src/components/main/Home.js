@@ -25,7 +25,7 @@ import {
 } from "@expo/vector-icons";
 // import { Fontisto } from "@expo/vector-icons";
 // import { FontAwesome5 } from '@expo/vector-icons';
-// import moment from "moment";
+import moment from "moment";
 import { NavBar } from "../tmp/NavBar";
 import colors from "../tmp/colors";
 
@@ -39,68 +39,85 @@ const pathImgs = [
 ];
 
 const listPost = [
-  { name: "hung", text: "hungdz", image: "../../public/img/assets/avatar.png", timestamp: 1608595200},
+  {
+    name: "hung",
+    text: "hungdz",
+    image: require("../../public/img/assets/avatar.png"),
+    timestamp: 1608595200,
+  },
+  {
+    name: "Nguyen Phu Vuong",
+    text: "vuongdz",
+    image: require("../../public/img/assets/avatar.png"),
+    timestamp: 1608595200,
+  },
 ];
 const renderNew = (item) => {
   return (
     //<View>
     //{/* <Image source={{uri: item.path}} style={styles.imgNew} resizeMode='contain'/> */}
-    <Image
-      source={item.image}
-      style={styles.imgNew}
-    />
+    <Image source={item.image} style={styles.imgNew} />
     //</View>
   );
 };
 
-renderPost = (post) => {
+const renderPost = (post) => {
   return (
     <View style={styles.feedItem}>
-      <Image
-        source={
-          
-           require("../../public/img/assets/avatar.png")
-        }
-        style={styles.avatar}
-      />
-      <View style={{ flex: 1 }}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <View>
+      <View style={styles.headerNewfeed}>
+        <Image
+          source={require("../../public/img/assets/avatar.png")}
+          style={styles.leftNew}
+        />
+        <View style={styles.rightNew}>
+          <TouchableOpacity style={styles.nameandTime} onPress={()=>alert("Go to profile")}>
             <Text style={styles.name}>{post.name ? post.name : "yo"}</Text>
             <Text style={styles.timestamp}>
               {moment(post.timestamp).fromNow()}
             </Text>
-          </View>
-          <Ionicons name="ios-more" size={24} color="#73788B" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={()=>alert("Delete post")}>
+            <Ionicons name="ios-more" size={24} color="#73788B" />
+          </TouchableOpacity>
         </View>
-        <Text style={styles.post}>{post.text}</Text>
+      </View>
+
+      <View style={styles.mainContentNew}>
+        <Text style={styles.postContent}>{post.text}</Text>
         <Image
-          source={{ uri: post.image }}
+          source={post.image}
           style={styles.postImage}
           resizeMode="cover"
         />
-        <View style={{ flexDirection: "row" }}>
+      </View>
+      <View style={styles.numberLikeCmt}>
+        <Text style={{marginLeft: 10,color:'gray'}}>123 Likes</Text>
+        <Text style={{marginRight: 10,color:'gray'}}>321 Comments</Text>
+      </View>
+      <View style={styles.likeComment}>
+        <TouchableOpacity style={styles.like} onPress={()=>alert("Like")}>
           <Ionicons
             name="md-thumbs-up"
             size={24}
             color="#737888"
-            style={{ marginRight: 16 }}
+            style={styles.likeCmtIcon}
           />
-          <Ionicons name="ios-chatboxes" size={24} color="#73788B" />
-        </View>
+          <Text style={styles.textLikeCmt}>Like</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.comment} onPress={()=>alert("Comment")}>
+          <Ionicons
+            name="ios-chatboxes"
+            size={24}
+            color="#73788B"
+            style={styles.likeCmtIcon}
+          />
+          <Text style={styles.textLikeCmt}>Comment</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
 };
-const Home =  ({ navigation }) => {
-
-
+const Home = ({ navigation }) => {
   // render() {
   //LayoutAnimation.easeInEaseOut()
   return (
@@ -168,14 +185,13 @@ const Home =  ({ navigation }) => {
         />
       </View>
 
-
       <FlatList
-      style={styles.feed}
-      data={listPost}
-      renderItem={({ item }) => this.renderPost(item)}
-      keyExtractor={(item) => `${item.timestamp}`}
-      showsVerticalScrollIndicator={false}
-    />
+        // style={styles.feed}
+        data={listPost}
+        renderItem={({ item }) => renderPost(item)}
+        keyExtractor={(item) => `${item.timestamp}`}
+        showsVerticalScrollIndicator={false}
+      />
     </ScrollView>
     //<FlatList
     //   style={styles.feed}
@@ -265,16 +281,11 @@ const styles = StyleSheet.create({
     borderRightWidth: 0.5,
     borderColor: "gray",
   },
-  feed: {
-    marginHorizontal: 0,
-    marginTop: 5,
-  },
   feedItem: {
     backgroundColor: "#FFF",
     borderRadius: 5,
-    padding: 8,
-    flexDirection: "row",
-    marginVertical: 4,
+    // padding: 8,
+    marginVertical: 10,
   },
   avatar: {
     width: 36,
@@ -282,41 +293,93 @@ const styles = StyleSheet.create({
     borderRadius: 18,
     marginRight: 16,
   },
+  headerNewfeed: {
+    flexDirection: "row",
+    marginTop: 10,
+    paddingHorizontal: 10,
+  },
+  leftNew: {
+    width: screen.width * 0.12,
+    height: screen.width * 0.12,
+    borderRadius: 18,
+    marginRight: 16,
+  },
+  rightNew: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  nameandTime: {
+    width: screen.width * 0.74,
+  },
   name: {
-    fontSize: 15,
-    fontWeight: "500",
-    color: "#454D65",
+    fontWeight: "bold",
+    fontSize: 20,
   },
   timestamp: {
     fontSize: 11,
     color: "#C4C6CE",
     marginTop: 4,
   },
-  post: {
+  mainContentNew: {},
+  postContent: {
     marginTop: 16,
     fontSize: 14,
-    color: "#838899",
+    marginLeft: 10,
+    color: "black",
   },
   postImage: {
     width: undefined,
-    height: 150,
-    borderRadius: 5,
+    height: 250,
     marginVertical: 16,
+  },
+  numberLikeCmt:{
+    flexDirection: 'row',
+    justifyContent:'space-between'
+  },
+  likeComment: {
+    flexDirection: "row",
+    width: screen.width * 0.92,
+    height: 50,
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
+    borderTopColor: colors.border,
+    borderBottomColor: colors.border,
+    marginHorizontal: screen.width * 0.04,
+    marginTop: 10
+  },
+  like: {
+    flexDirection: "row",
+    width: screen.width * 0.46,
+    alignSelf: "center",
+    justifyContent: "center",
+  },
+  comment: {
+    flexDirection: "row",
+    width: screen.width * 0.46,
+    alignSelf: "center",
+    justifyContent: "center",
+  },
+  textLikeCmt: {
+    color: "gray",
+    marginTop: 2,
+    fontSize: 16
+  },
+  likeCmtIcon: {
+    marginRight: 10,
   },
   yourNews: {
     marginTop: 10,
     backgroundColor: "white",
     height: 230,
     paddingHorizontal: 15,
-    paddingVertical: 15
+    paddingVertical: 15,
   },
   imgNew: {
     width: 100,
     height: 200,
     marginRight: 7,
     borderRadius: 10,
-    
   },
 });
 
-export default Home
+export default Home;
