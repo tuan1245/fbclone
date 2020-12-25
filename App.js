@@ -1,3 +1,11 @@
+import { AppRegistry,Text } from "react-native";
+import React from "react";
+// import AppA from "./AppA";
+import ReactDOM from "react-dom";
+import { name as appName } from "./app.json";
+import { Provider } from "react-redux";
+
+import store from "./src/store/store";
 
 /**
  * Sample React Native App
@@ -7,18 +15,20 @@
  * @flow strict-local
  */
 
-import React from 'react';
 import { Navigate } from './src/navigator/navigate.page';
 
-// const App = () => {
-const App= () => {
-	return (
-		<>
-			<Navigate />
-			
-		</>
-	);
-};
 
+export default App = () => {
+    console.log("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA");
+    return (
+        
+        <Provider store={store}>
+            <>
+                <Navigate />
 
-export default App;
+            </>
+        </Provider>
+    );
+
+}
+

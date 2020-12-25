@@ -7,7 +7,7 @@
  */
 import React from 'react'
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import { pageName } from './constant.page';
 
 import {
@@ -15,16 +15,18 @@ import {
     LoginNewAccount,
     // LoginRecentlyAcc,
 
-    // // Sign up
-    // Birthday,
-    // Name,
-    // Password,
-    // PhoneNumber,
-    // Policy,
-    // ConfirmAcc,
-    // Remind,
-    // Remember,
-    // StartCreateAcc,
+
+    // Sign up
+    Birthday,
+    Name,
+    Password,
+    PhoneNumber,
+    Policy,
+    ConfirmAcc,
+    Remind,
+    Remember,
+    StartCreateAcc,
+    
 
     // // create post
     // CreatePost,
@@ -59,13 +61,29 @@ import {
     // Welcome,
 
 } from '../components';
+import  Test  from "../components/auth/login/Test.js";
+import Home from "../components/main/Home.js";
+import Friends from "../components/main/Friends.js";
+import Noti from "../components/main/Noti";
+import Menu from "../components/main/Menu";
 
 const Stack = createStackNavigator();
 const Navigate = () => {
     return (
         <NavigationContainer>
 
-            <Stack.Navigator>
+            <Stack.Navigator
+            screenOptions = {
+                {
+                    gestureEnabled: true,
+                    gestureDirection: "horizontal",
+                    cardStyleInterpolator:
+                    CardStyleInterpolators.forHorizontalIOS
+                }
+            }
+            headerMode="float"
+            animation="fade"
+            >
 
                 {/* <Stack.Screen
                     name={pageName.WELCOME}
@@ -79,7 +97,28 @@ const Navigate = () => {
                     options={{ headerShown: false }}
                 />
 
+                <Stack.Screen
+                    name={"Home"}
+                    component={Home}
+                    options={{ headerShown: false }}
+                />
 
+                <Stack.Screen
+                    name={"Friends"}
+                    component={Friends}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name={"Noti"}
+                    component={Noti}
+                    options={{ headerShown: false }}
+                />
+
+                <Stack.Screen
+                    name={"Menu"}
+                    component={Menu}
+                    options={{ headerShown: false }}
+                />
                 {/* <Stack.Screen
                     name={pageName.main.MAIN}
                     component={MainContainer}
@@ -137,6 +176,7 @@ const Navigate = () => {
                 <Stack.Screen name={pageName.sign_up.CONFIRM} component={ConfirmAcc} />
                 <Stack.Screen name={pageName.sign_up.REMIND} component={Remind} />
                 <Stack.Screen name={pageName.sign_up.REMEMBER} component={Remember} /> */}
+                <Stack.Screen name={"Test"} component={Test} />
 
 
                 {/*Tạo bài viết*/}

@@ -49,105 +49,8 @@ const renderNew = (item) => {
   );
 };
 
-export default ({ navigation }) => {
-  // constructor(props) {
-  //   super(props);
-  //   this.ref = Fire.shared.firestore.collection("posts").where("uid","==",Fire.shared.uid);
-  //   this.useref = this.state = {
-  //     dataSource: [],
-  //     text: "",
-  //     image: null,
-  //     user: {},
-  //     hasPermission: false,
-  //   };
-  // }
-  // tuandeptrai = null;
-  // componentDidMount() {
-  //   const user = this.props.uid || Fire.shared.uid;
-  //   this.tuandeptrai = Fire.shared.firestore
-  //     .collection("users")
-  //     .doc(user)
-  //     .onSnapshot((doc) => {
-  //       this.setState({ user: doc.data() });
-  //     });
-  //   this.tuandeptrai = this.ref.onSnapshot(this.feedPosts);
-  // }
-  // componentWillUnmount() {
-  //   this.tuandeptrai();
-  // }
-  // feedPosts = (postSnapShot) => {
-  //   const post = [];
-  //   postSnapShot.forEach((doc) => {
-  //     const { uid, text, timestamp, image } = doc.data();
-  //     let avatar = "dwe";
-  //     let name = "ewfj";
-  //     const data = Fire.shared.firestore
-  //       .collection("users")
-  //       .doc(uid)
-  //       .get()
-  //       .then((doc) => {
-  //         post.push({
-  //           avatar: doc.data().avatar,
-  //           name: doc.data().name,
-  //           uid,
+const Home =  ({ navigation }) => {
 
-  //           text,
-  //           timestamp,
-  //           image,
-  //         });
-  //         this.setState({
-  //           dataSource: post,
-  //         });
-  //       });
-  //   });
-  // };
-
-  // renderPost = (post) => {
-  //   return (
-  //     <View style={styles.feedItem}>
-  //       <Image
-  //         source={
-  //           post.avatar
-  //             ? { uri: post.avatar }
-  //             : require("../assets/images/avatar.png")
-  //         }
-  //         style={styles.avatar}
-  //       />
-  //       <View style={{ flex: 1 }}>
-  //         <View
-  //           style={{
-  //             flexDirection: "row",
-  //             justifyContent: "space-between",
-  //             alignItems: "center",
-  //           }}
-  //         >
-  //           <View>
-  //             <Text style={styles.name}>{post.name ? post.name : "yo"}</Text>
-  //             <Text style={styles.timestamp}>
-  //               {moment(post.timestamp).fromNow()}
-  //             </Text>
-  //           </View>
-  //           <Ionicons name="ios-more" size={24} color="#73788B" />
-  //         </View>
-  //         <Text style={styles.post}>{post.text}</Text>
-  //         <Image
-  //           source={{ uri: post.image }}
-  //           style={styles.postImage}
-  //           resizeMode="cover"
-  //         />
-  //         <View style={{ flexDirection: "row" }}>
-  //           <Ionicons
-  //             name="md-thumbs-up"
-  //             size={24}
-  //             color="#737888"
-  //             style={{ marginRight: 16 }}
-  //           />
-  //           <Ionicons name="ios-chatboxes" size={24} color="#73788B" />
-  //         </View>
-  //       </View>
-  //     </View>
-  //   );
-  // };
 
   // render() {
   //LayoutAnimation.easeInEaseOut()
@@ -169,40 +72,7 @@ export default ({ navigation }) => {
             />
           </TouchableOpacity>
         </View>
-        {/* <View style={styles.navBar}>
-          <TouchableOpacity onPress={() => navigation.push("Home")}>
-            <AntDesign
-              name="home"
-              size={24}
-              color="gray"
-              style={{ marginLeft: 15 }}
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.push("Friends")}>
-            <MaterialCommunityIcons
-              name="account-group-outline"
-              size={24}
-              color="gray"
-            />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.push("Noti")}>
-            <Ionicons name="ios-notifications-outline" size={24} color="gray" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => alert("Heart")}>
-            <Entypo name="heart-outlined" size={24} color="gray" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => alert("Watch")}>
-            <MaterialIcons name="live-tv" size={24} color="gray" />
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.push("Menu")}>
-            <Feather
-              name="menu"
-              size={24}
-              color="gray"
-              style={{ marginRight: 15 }}
-            />
-          </TouchableOpacity>
-        </View> */}
+        {}
         <NavBar />
         <View style={styles.think}>
           <Image
@@ -390,3 +260,5 @@ const styles = StyleSheet.create({
     
   },
 });
+
+export default Home

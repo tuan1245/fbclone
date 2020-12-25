@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { View, Text, Image, ImageBackground, StyleSheet, TextInput, TouchableOpacity, Alert, StatusBar, ActivityIndicator } from 'react-native'
-//import { CommonStyle } from '../sign-up/commonStyle'
+import { CommonStyle } from '../sign-up/commonStyle'
 import { pageName } from '../../../navigator/constant.page'
 import { connect } from 'react-redux'
 import { AuthActions } from '../redux/action'
@@ -25,10 +25,12 @@ const LoginNewAccount = (props) => {
 
     useEffect(() => {
         console.log('props.auth?.user?.id', props.auth);
-        if (props.auth?.isLoading === false && props.auth?.user?.id){
-            // props.getProfile();
+        
+        if (props.auth.user.id){
+            console.log(props.getProfile());
+        
             setLoading(false);
-            props.navigation.replace(pageName.main.MAIN);
+            props.navigation.replace("Home");
         }
     }, [props.auth])
 
