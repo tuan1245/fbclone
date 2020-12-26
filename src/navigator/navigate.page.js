@@ -60,12 +60,14 @@ import {
     // ViewVideo,
     // Welcome,
 
+
 } from '../components';
 import  Test  from "../components/auth/login/Test.js";
-import Home from "../components/main/Home.js";
+import {Home} from "../components/main/Home.js";
 import Friends from "../components/main/Friends.js";
 import Noti from "../components/main/Noti";
 import Menu from "../components/main/Menu";
+import SignUp from "../components/main/SignUp";
 
 const Stack = createStackNavigator();
 const Navigate = () => {
@@ -117,6 +119,11 @@ const Navigate = () => {
                 <Stack.Screen
                     name={"Menu"}
                     component={Menu}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name={"SignUp"}
+                    component={SignUp}
                     options={{ headerShown: false }}
                 />
                 {/* <Stack.Screen

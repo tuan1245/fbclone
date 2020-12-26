@@ -2,14 +2,14 @@ import { combineReducers } from 'redux';
 import { auth } from '../components/auth/redux/reducer';
 
 
-// import { post } from '../components/post/redux/reducer';
+import { post } from '../components/post/redux/reducer';
 // import { notification } from '../components/notification-tab/redux/reducer';
 // import { profile } from '../components/profile/redux/reducer';
-import { getData, removeStore } from '../helper/requestHelper'
+// import { getData, removeStore } from '../helper/requestHelper'
 
 const appReducer = combineReducers({
     auth,
-    // post,
+    post,
     // profile,
     // notification
 })

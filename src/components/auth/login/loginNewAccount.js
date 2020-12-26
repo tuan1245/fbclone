@@ -23,6 +23,21 @@ const LoginNewAccount = (props) => {
     const [enteringText, setEnteringText] = useState(false);
     const [enteringPass, setEnteringPass] = useState(false);
 
+    // useEffect(() => {
+    //     console.log('props.auth?.user?.id', props.auth);
+        
+    //     if (props.auth.user.id){
+    //         console.log(props.getProfile());
+        
+    //         setLoading(false);
+    //         props.navigation.replace("Home");
+    //     }
+    //     else if (props.auth.error === undefined){
+    //         setLoading(false);
+    //         alert("loi")
+    //     }
+    // }, [props.auth])
+
     useEffect(() => {
         console.log('props.auth?.user?.id', props.auth);
         
@@ -51,7 +66,7 @@ const LoginNewAccount = (props) => {
         Alert.alert('Forgot pw')
     }
     const onPressCreateAcc = () => {
-        props.navigation.navigate(pageName.sign_up.BEGIN)
+        props.navigation.navigate("SignUp")
     }
 
     // console.log('auth\n\n', props.auth);

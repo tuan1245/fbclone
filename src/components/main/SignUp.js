@@ -10,51 +10,51 @@ import {
   LayoutAnimation,
   Image,
 } from "react-native";
-import Fire from "../Fire";
+// import Fire from "../Fire";
 import { Ionicons } from "@expo/vector-icons";
-import UserPermissions from "../utilities/UserPermissions";
+// import UserPermissions from "../utilities/UserPermissions";
 import * as ImagePicker from "expo-image-picker";
 
-export default class RegisterScreen extends Component {
-  static navigationOptions = {
-    headerShown: false,
-  };
+const SignUp = () => {
+  //  navigationOptions = {
+  //   headerShown: false,
+  // };
 
-  state = {
-    user: {
-      name: "",
-      email: "",
-      password: "",
-      avatar: null,
-    },
-    errorMessage: null,
-  };
+  // state = {
+  //   user: {
+  //     name: "",
+  //     email: "",
+  //     password: "",
+  //     avatar: null,
+  //   },
+  //   errorMessage: null,
+  // };
 
-  handleSignup = () => {
-    Fire.shared.createUSer(this.state.user);
-  };
+  // handleSignup = () => {
+  //   // Fire.shared.createUSer(this.state.user);
+  // };
 
-  handlePickAvatar = async () => {
-    // UserPermissions.getPhotoPermissions()
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [4, 3],
-    });
-    if (!result.cancelled) {
-      console.log(result.uri);
-      this.setState({ user: { ...this.state.user, avatar: result.uri } });
-    }
-  };
+  // handlePickAvatar = async () => {
+  //   // UserPermissions.getPhotoPermissions()
+  //   let result = await ImagePicker.launchImageLibraryAsync({
+  //     mediaTypes: ImagePicker.MediaTypeOptions.Images,
+  //     allowsEditing: true,
+  //     aspect: [4, 3],
+  //   });
+  //   if (!result.cancelled) {
+  //     console.log(result.uri);
+  //     this.setState({ user: { ...this.state.user, avatar: result.uri } });
+  //   }
+  // };
 
-  render() {
+  // render() {
     LayoutAnimation.easeInEaseOut();
 
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content"></StatusBar>
         <ImageBackground
-          source={require("../assets/images/background.jpg")}
+          source={require("../../public/img/assets/background.jpg")}
           style={{
             flex: 1,
             width: "100%",
@@ -93,8 +93,8 @@ export default class RegisterScreen extends Component {
                 onPress={this.handlePickAvatar}
               >
                 <Image
-                  source={{ uri: this.state.user.avatar }}
-                  style={styles.avatar}
+                  // source={{ uri: this.state.user.avatar }}
+                  // style={styles.avatar}
                 />
                 <Ionicons
                   name="ios-add"
@@ -103,9 +103,9 @@ export default class RegisterScreen extends Component {
                   style={{ marginTop: 6, marginLeft: 2 }}
                 ></Ionicons>
               </TouchableOpacity>
-              {this.state.errorMessage && (
+              {/* {this.state.errorMessage && (
                 <Text style={styles.error}>{this.state.errorMessage}</Text>
-              )}
+              )} */}
             </View>
 
             <View style={styles.form}>
@@ -114,10 +114,10 @@ export default class RegisterScreen extends Component {
                 <TextInput
                   style={styles.input}
                   autoCapitalize="none"
-                  onChangeText={(name) =>
-                    this.setState({ user: { ...this.state.user, name } })
-                  }
-                  value={this.state.user.name}
+                  // onChangeText={(name) =>
+                  //   this.setState({ user: { ...this.state.user, name } })
+                  // }
+                  // value={this.state.user.name}
                 ></TextInput>
               </View>
               <View style={{ marginTop: 16 }}>
@@ -125,10 +125,10 @@ export default class RegisterScreen extends Component {
                 <TextInput
                   style={styles.input}
                   autoCapitalize="none"
-                  onChangeText={(email) =>
-                    this.setState({ user: { ...this.state.user, email } })
-                  }
-                  value={this.state.user.email}
+                  // onChangeText={(email) =>
+                  //   this.setState({ user: { ...this.state.user, email } })
+                  // }
+                  // value={this.state.user.email}
                 ></TextInput>
               </View>
               <View style={{ marginTop: 16 }}>
@@ -137,14 +137,15 @@ export default class RegisterScreen extends Component {
                   style={styles.input}
                   autoCapitalize="none"
                   secureTextEntry
-                  value={this.state.user.password}
-                  onChangeText={(password) =>
-                    this.setState({ user: { ...this.state.user, password } })
-                  }
+                  // value={this.state.user.password}
+                  // onChangeText={(password) =>
+                  //   this.setState({ user: { ...this.state.user, password } })
+                  // }
                 ></TextInput>
               </View>
             </View>
-            <TouchableOpacity style={styles.button} onPress={this.handleSignup}>
+            <TouchableOpacity style={styles.button} > 
+           
               <Text style={{ color: "#FFF", fontWeight: "500" }}>Sign up</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -160,7 +161,7 @@ export default class RegisterScreen extends Component {
       </View>
     );
   }
-}
+// }
 
 const styles = StyleSheet.create({
   container: {
@@ -237,3 +238,4 @@ const styles = StyleSheet.create({
     borderRadius: 50,
   },
 });
+export default SignUp

@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+import React, { Component ,useCallback, useEffect, useState } from "react";
+
 import {
   View,
   Text,
@@ -12,6 +13,8 @@ import {
   SafeAreaView,
   Dimensions,
   StatusBar,
+  RefreshControl,
+  LogBox,
 } from "react-native";
 // import Fire from "../Fire";
 import {
@@ -28,7 +31,8 @@ import {
 import moment from "moment";
 import { NavBar } from "../tmp/NavBar";
 import colors from "../tmp/colors";
-
+import { PostAction } from '../post/redux/action';
+import { connect } from 'react-redux'
 const screen = Dimensions.get("window");
 const pathImgs = [
   { id: "100", image: require("../../public/img/assets/tempImage1.jpg") },
@@ -61,7 +65,24 @@ const renderNew = (item) => {
   );
 };
 
+const wait = (timeout) => {
+  return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+  });
+}
+
+
 const renderPost = (post) => {
+  var img = <Text></Text>
+  if(post.image.length !== 0) {
+    img =<Image
+      source={require("../../public/img/assets/avatar.png")}
+      style={styles.postImage}
+      resizeMode="cover"
+    />
+  }
+    
+
   return (
     <View style={styles.feedItem}>
       <View style={styles.headerNewfeed}>
@@ -71,9 +92,9 @@ const renderPost = (post) => {
         />
         <View style={styles.rightNew}>
           <TouchableOpacity style={styles.nameandTime} onPress={()=>alert("Go to profile")}>
-            <Text style={styles.name}>{post.name ? post.name : "yo"}</Text>
+            <Text style={styles.name}>{post.creator.name}</Text>
             <Text style={styles.timestamp}>
-              {moment(post.timestamp).fromNow()}
+              {/* {moment(post.timestamp).fromNow()} */}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>alert("Delete post")}>
@@ -83,12 +104,8 @@ const renderPost = (post) => {
       </View>
 
       <View style={styles.mainContentNew}>
-        <Text style={styles.postContent}>{post.text}</Text>
-        <Image
-          source={post.image}
-          style={styles.postImage}
-          resizeMode="cover"
-        />
+        <Text style={styles.postContent}>{post.described}</Text>
+        {img}
       </View>
       <View style={styles.numberLikeCmt}>
         <Text style={{marginLeft: 10,color:'gray'}}>123 Likes</Text>
@@ -117,19 +134,53 @@ const renderPost = (post) => {
     </View>
   );
 };
-const Home = ({ navigation }) => {
+const Home = (props ) => {
+
+  const { auth, post } = props;
+
+  const [refreshing, setRefreshing] = React.useState(false);
+  const [postLoading, setPostLoading] = React.useState(false);
+
+  useEffect(() => {
+      // ignore Logs
+      LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+
+      // get list post,
+      props.getAllPost();
+  }, []);
+
+  const onRefresh = React.useCallback(() => {
+      setRefreshing(true);
+      props.getAllPost();
+      console.log('refresh trang chu');
+
+      // check data return isLoading === false;
+      wait(2000).then(() => {
+          console.log('done');
+          setRefreshing(false)
+
+      });
+  }, []);
   // render() {
   //LayoutAnimation.easeInEaseOut()
+
+  console.log("aaa\n\n\n\n\n\n",JSON.stringify(props.post))
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView 
+    showsVerticalScrollIndicator={false}
+    refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    }
+    style={styles.container}
+    >
       <StatusBar backgroundColor={"white"} />
       <SafeAreaView style={{ backgroundColor: "white" }}>
         <View style={styles.header}>
-          <Text style={styles.facebook}>facebook</Text>
-          <TouchableOpacity onPress={() => navigation.push("Search")}>
+          <Text style={styles.facebook}>Facebook</Text>
+          <TouchableOpacity onPress={() => props.navigation.push("Search")}>
             <Ionicons name="md-search" size={28} color="black" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => navigation.push("Chat")}>
+          <TouchableOpacity onPress={() => props.navigation.push("Chat")}>
             <Fontisto
               name="messenger"
               size={24}
@@ -158,7 +209,7 @@ const Home = ({ navigation }) => {
             //value={this.state.text}
             placeholderTextColor={"black"}
             style={styles.textInput}
-            onFocus={() => navigation.push("Post")}
+            onFocus={() => props.navigation.push("Post")}
           ></TextInput>
         </View>
         <View style={styles.media}>
@@ -186,8 +237,8 @@ const Home = ({ navigation }) => {
       </View>
 
       <FlatList
-        // style={styles.feed}
-        data={listPost}
+        style={styles.feed}
+        data={props.post.listPost}
         renderItem={({ item }) => renderPost(item)}
         keyExtractor={(item) => `${item.timestamp}`}
         showsVerticalScrollIndicator={false}
@@ -382,4 +433,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+const mapStateToProps = state => {
+  const { auth, post } = state;
+  return { auth, post };
+}
+const mapActions = {
+  getAllPost: PostAction.getAllPost,
+  getPostByUser: PostAction.getPostByUser,
+};
+
+let connected = connect(mapStateToProps, mapActions)(Home);
+
+export { connected as Home}
+
+// export default Home;
