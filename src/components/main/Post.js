@@ -9,18 +9,18 @@ import {
   TextInput,
   PermissionsAndroid,
 } from "react-native";
-import colors from "../constants/colors";
+import colors from "../tmp/colors";
 import { Ionicons } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import * as Permissions from "expo-permissions";
-import Fire from "../Fire";
+import Fire from "../../../Fire";
 import * as ImagePicker from "expo-image-picker";
 const firebase = require("firebase");
 require("firebase/firestore");
 import { Camera } from 'expo-camera';
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
-export default class PostScreen extends Component {
+class Post extends Component {
   state = {
     text: "",
     image: null,
@@ -188,3 +188,5 @@ const styles = StyleSheet.create({
     marginRight: 30,
   },
 });
+
+export default Post
