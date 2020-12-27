@@ -56,6 +56,7 @@ const listPost = [
     timestamp: 1608595200,
   },
 ];
+const host = "https://fakebook-server.herokuapp.com"
 const renderNew = (item) => {
   return (
     //<View>
@@ -76,7 +77,7 @@ const renderPost = (post) => {
   var img = <Text></Text>
   if(post.image.length !== 0) {
     img =<Image
-      source={require("../../public/img/assets/avatar.png")}
+      source={{uri: host + post.image[0]}}
       style={styles.postImage}
       resizeMode="cover"
     />
@@ -87,7 +88,7 @@ const renderPost = (post) => {
     <View style={styles.feedItem}>
       <View style={styles.headerNewfeed}>
         <Image
-          source={require("../../public/img/assets/avatar.png")}
+          source={{uri: "https://fakebook-server.herokuapp.com/upload/avatars/user.jpg"}}
           style={styles.leftNew}
         />
         <View style={styles.rightNew}>
@@ -164,7 +165,7 @@ const Home = (props ) => {
   // render() {
   //LayoutAnimation.easeInEaseOut()
 
-  console.log("aaa\n\n\n\n\n\n",JSON.stringify(props.post))
+  // console.log("aaa\n\n\n\n\n\n",JSON.stringify(props.post))
   return (
     <ScrollView 
     showsVerticalScrollIndicator={false}
@@ -209,7 +210,7 @@ const Home = (props ) => {
             //value={this.state.text}
             placeholderTextColor={"black"}
             style={styles.textInput}
-            onFocus={() => props.navigation.push("Post")}
+            onFocus={() => props.navigation.push("CreatePost")}
           ></TextInput>
         </View>
         <View style={styles.media}>
@@ -240,7 +241,7 @@ const Home = (props ) => {
         style={styles.feed}
         data={props.post.listPost}
         renderItem={({ item }) => renderPost(item)}
-        keyExtractor={(item) => `${item.timestamp}`}
+        keyExtractor={(item) => `${item.created}`}
         showsVerticalScrollIndicator={false}
       />
     </ScrollView>

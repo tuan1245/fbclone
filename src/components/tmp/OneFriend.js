@@ -1,6 +1,6 @@
 import React from "react";
 import { TouchableOpacity, View, Text, StyleSheet, Image } from "react-native";
-import colors from "../constants/colors";
+import colors from "./colors";
 
 const styles = StyleSheet.create({
   row: {
@@ -41,7 +41,7 @@ export const OneFriend = ({ item, onPress }) => {
   return (
     <TouchableOpacity style={styles.row} onPress={onPress}>
       <Image
-        source={require("../assets/images/tempImage2.jpg")}
+        source={require("../../public/img/assets/tempImage2.jpg")}
         style={styles.avatar}
       />
       <View style={styles.text}>

@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity, View, Text, StyleSheet, Dimensions } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import colors from "../constants/colors";
+import colors from "./colors";
 import { Ionicons } from "@expo/vector-icons";
 const screen = Dimensions.get('window');
 

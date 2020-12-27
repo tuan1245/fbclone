@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component ,useEffect} from "react";
 import {
   View,
   StyleSheet,
@@ -21,15 +21,32 @@ import {
   FontAwesome,
 } from "@expo/vector-icons";
 import colors from "../tmp/colors";
+import { connect } from 'react-redux'
+import { AuthActions } from "../auth/redux/action";
 const screen = Dimensions.get("window");
-const Menu = ({ navigation }) => {
+
+
+
+
+const Menu = (props) => {
+  const onPressLogOut = (e) =>{
+    e.preventDefault();
+    props.logout()
+    props.navigation.replace("Đăng nhập")
+  };
+
+//   useEffect(() => {
+//     props.navigation.replace("Đăng nhập")
+// }, [props.auth.isLogout])
+
+
   return (
     <View>
       <NavBar />
       <ScrollView style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>Menu</Text>
-          <TouchableOpacity onPress={() => navigation.push("Search")}>
+          <TouchableOpacity onPress={() => props.navigation.push("Search")}>
             <Ionicons
               name="md-search"
               size={28}
@@ -40,7 +57,7 @@ const Menu = ({ navigation }) => {
         </View>
         <TouchableOpacity
           style={styles.profile}
-          onPress={() => navigation.push("Profile")}
+          onPress={() => props.navigation.push("Profile")}
         >
           <Image
             source={require("../../public/img/assets/avatar.png")}
@@ -119,7 +136,7 @@ const Menu = ({ navigation }) => {
             <MaterialCommunityIcons name="table-large-plus" size={28} color="#94b8b8" />
             <Text style={styles.textBottom}>Sản phẩm khác của Facebook</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.oneBottomContent} onPress={()=>navigation.push("Help")}>
+          <TouchableOpacity style={styles.oneBottomContent} onPress={()=>props.navigation.push("Help")}>
             <MaterialCommunityIcons name="help-circle" size={28} color="#94b8b8" />
             <Text style={styles.textBottom}>Trợ giúp & hỗ trợ</Text>
           </TouchableOpacity>
@@ -127,7 +144,7 @@ const Menu = ({ navigation }) => {
             <Fontisto name="player-settings" size={28} color="#94b8b8" />
             <Text style={styles.textBottom}>Cài đặt và quyền riêng tư</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.oneBottomContent} onPress={()=>alert("Log out")}>
+          <TouchableOpacity style={styles.oneBottomContent} onPress={(e)=> onPressLogOut(e)}>
             <Entypo name="log-out" size={28} color="#94b8b8" />
             <Text style={styles.textBottom}>Đăng xuất</Text>
           </TouchableOpacity>
@@ -238,4 +255,16 @@ const styles = StyleSheet.create({
     height: 50,
   },
 });
-export default Menu;
+
+const mapStateToProps = state => {
+  const { auth } = state;
+  return { auth };
+}
+const mapActions = {
+  logout: AuthActions.logout,
+};
+
+let connected = connect(mapStateToProps, mapActions)(Menu);
+
+export { connected as Menu}
+

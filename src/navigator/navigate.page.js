@@ -66,10 +66,11 @@ import  Test  from "../components/auth/login/Test.js";
 import {Home} from "../components/main/Home.js";
 import Friends from "../components/main/Friends.js";
 import Noti from "../components/main/Noti";
-import Menu from "../components/main/Menu";
-import SignUp from "../components/main/SignUp";
-import Post from "../components/main/Post";
-
+import {Menu} from "../components/main/Menu";
+import {SignUp} from "../components/main/SignUp";
+import {Post} from "../components/main/Post";
+import {CreatePost} from "../components/main/create-post";
+import {Profile} from "../components/main/Profile";
 const Stack = createStackNavigator();
 const Navigate = () => {
     return (
@@ -131,6 +132,16 @@ const Navigate = () => {
                 <Stack.Screen
                     name={"Post"}
                     component={Post}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name={"CreatePost"}
+                    component={CreatePost}
+                    options={{ headerShown: false }}
+                />
+                <Stack.Screen
+                    name={"Profile"}
+                    component={Profile}
                     options={{ headerShown: false }}
                 />
                 {/* <Stack.Screen

@@ -35,6 +35,7 @@ function login(user) {
 function register(user) {
     return dispatch => {
         dispatch({ type: AuthConstants.REGISTER_REQUEST });
+        console.log('user', user);
         AuthService.register(user)
             .then(async res => {
                 await storeData('userId', res.data.content.newUser._id);
@@ -97,10 +98,11 @@ function logout(){
                 await removeStore('auth-token');
                 await removeStore('userId');
                 // Do sẽ reset localStorage và redux, không cần gọi dispatch({type: AuthConstants.LOGOUT_SUCCESS});
-                // dispatch({type: 'RESET'})
-                dispatch({type: AuthConstants.LOGOUT_SUCCESS});
+                dispatch({type: 'RESET'})
+                // dispatch({type: AuthConstants.LOGOUT_SUCCESS});
             })
             .catch(err => {
+                console.log('reset logout fail');
                 dispatch({type: AuthConstants.LOGOUT_FAILE});
             })
     }

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component ,useEffect} from "react";
 import {
   View,
   Text,
@@ -9,14 +9,17 @@ import {
   Dimensions,
   FlatList,
 } from "react-native";
-import Fire from "../Fire";
+// import Fire from "../Fire";
 import { Fontisto } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { Entypo } from "@expo/vector-icons";
-import colors from "../constants/colors";
+import colors from "../tmp/colors";
 import { ScrollView } from "react-native-gesture-handler";
-import { OneFriend } from "../components/OneFriend";
-import {BackScreen} from "../components/BackScreen";
+import { OneFriend } from "../tmp/OneFriend";
+import {BackScreen} from "../tmp/BackScreen";
+import { PostAction } from '../post/redux/action';
+import { connect } from 'react-redux'
+import { AuthActions } from "../auth/redux/action";
 
 const screen = Dimensions.get("window");
 data = [
@@ -27,48 +30,101 @@ data = [
   { id: "1", name: "Phạm Mỹ Linh", number: "100 bạn chung" },
   { id: "1", name: "Phạm Mỹ Linh", number: "100 bạn chung" },
 ];
-export default class ProfileScreen extends Component {
-  state = {
-    user: {},
-  };
-  unsubscribe = null;
+const Profile  = (props) => {
 
-  componentDidMount() {
-    const user = this.props.uid || Fire.shared.uid;
-    this.unsubscribe = Fire.shared.firestore
-      .collection("users")
-      .doc(user)
-      .onSnapshot((doc) => {
-        this.setState({ user: doc.data() });
-      });
-  }
+  const host = "https://fakebook-server.herokuapp.com"
+  const imgDefault = "../../public/img/assets/avatar.png"
 
-  componentWillUnmount() {
-    this.unsubscribe();
-  }
-  renderFriend = (friend) => {
+  useEffect(() => {
+      props.getProfile()
+      props.getPostByUser(props.auth.user.id)
+}, [])
+
+
+  const renderFriend = (friend) => {
     return (
       <View>
         <OneFriend item={friend} onPress={() => alert("One Friend")} />
       </View>
     );
   };
-  render() {
+
+  const renderPost = (post) => {
+    var img = <Text></Text>
+    if(post.image.length !== 0) {
+      img =<Image
+        source={post.image[0]}
+        style={stylePost.postImage}
+        resizeMode="cover"
+      />
+    }
+      
+  
+    return (
+      <View style={stylePost.feedItem}>
+        <View style={stylePost.headerNewfeed}>
+          <Image
+            source={{uri: "../../public/img/assets/avatar.png"}}
+            style={stylePost.leftNew}
+          />
+          <View style={stylePost.rightNew}>
+            <TouchableOpacity style={stylePost.nameandTime} onPress={()=>alert("Go to profile")}>
+              <Text style={stylePost.name}>{post.creator.name}</Text>
+              <Text style={stylePost.timestamp}>
+                {/* {moment(post.timestamp).fromNow()} */}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={()=>alert("Delete post")}>
+              <Ionicons name="ios-more" size={24} color="#73788B" />
+            </TouchableOpacity>
+          </View>
+        </View>
+  
+        <View style={stylePost.mainContentNew}>
+          <Text style={stylePost.postContent}>{post.described}</Text>
+          {img}
+        </View>
+        <View style={stylePost.numberLikeCmt}>
+          <Text style={{marginLeft: 10,color:'gray'}}>123 Likes</Text>
+          <Text style={{marginRight: 10,color:'gray'}}>321 Comments</Text>
+        </View>
+        <View style={stylePost.likeComment}>
+          <TouchableOpacity style={stylePost.like} onPress={()=>alert("Like")}>
+            <Ionicons
+              name="md-thumbs-up"
+              size={24}
+              color="#737888"
+              style={stylePost.likeCmtIcon}
+            />
+            <Text style={stylePost.textLikeCmt}>Like</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={stylePost.comment} onPress={()=>alert("Comment")}>
+            <Ionicons
+              name="ios-chatboxes"
+              size={24}
+              color="#73788B"
+              style={stylePost.likeCmtIcon}
+            />
+            <Text style={stylePost.textLikeCmt}>Comment</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+
     return (
       <ScrollView style={styles.container}>
         <BackScreen/>
         <ScrollView style={styles.wrapper}>
           <View style={styles.avatarContainer}>
             <Image
-              source={require("../assets/images/tempImage1.jpg")}
+              source={require("../../public/img/assets/tempImage1.jpg")}
               style={styles.bkground}
             />
             <Image
               style={styles.avatar}
               source={
-                this.state.user.avatar
-                  ? { uri: this.state.user.avatar }
-                  : require("../assets/images/avatar.png")
+            require("../../public/img/assets/avatar.png")
               }
             />
             <Entypo
@@ -79,7 +135,7 @@ export default class ProfileScreen extends Component {
               onPress={() => alert("Change avatar")}
             />
           </View>
-          <Text style={styles.name}>{this.state.user.name}</Text>
+          <Text style={styles.name}>{props.auth.profile.name}</Text>
           <View style={styles.toolbar}>
             <TouchableOpacity
               style={styles.wrapperMess}
@@ -149,7 +205,7 @@ export default class ProfileScreen extends Component {
                 // style={styles.feed}
                 numColumns={3}
                 data={data}
-                renderItem={({ item }) => this.renderFriend(item)}
+                renderItem={({ item }) => renderFriend(item)}
                 keyExtractor={(item) => `${item.id}`}
                 // showsVerticalScrollIndicator={false}
               />
@@ -169,17 +225,24 @@ export default class ProfileScreen extends Component {
               <Text style={styles.statTitle}>6969</Text>
             </View>
           </View> */}
+            <FlatList
+            style={stylePost.feed}
+            data={props.post.myPost}
+            renderItem={({ item }) => renderPost(item)}
+            keyExtractor={(item) => `${item.created}`}
+            showsVerticalScrollIndicator={false}
+          />
         </ScrollView>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => Fire.shared.signOut()}
+          // onPress={() => Fire.shared.signOut()}
         >
           <Text style={{ color: "grey", fontWeight: "500" }}>Log out</Text>
         </TouchableOpacity>
       </ScrollView>
     );
   }
-}
+
 
 const styles = StyleSheet.create({
   container: {
@@ -314,3 +377,195 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+const stylePost = StyleSheet.create({
+  container: {
+    flex: 1,
+    //marginTop: 35,
+    backgroundColor: "#EFECF4",
+  },
+  facebook: {
+    fontSize: 28,
+    color: colors.facebook,
+    fontWeight: "bold",
+    marginLeft: 10,
+    width: screen.width * 0.8,
+  },
+  header: {
+    // padding: 16,
+    // backgroundColor: "#FFF",
+    // alignItems: "center",
+    // borderBottomWidth: 1,
+    // justifyContent: "center",
+    // borderBottomColor: "#EBECF4",
+    // shadowColor: "#454D65",
+    // shadowOffset: { height: 5 },
+    // shadowRadius: 15,
+    // shadowOpacity: 0.2,
+    // zIndex: 10,
+    flexDirection: "row",
+    //justifyContent:'space-between',
+    alignItems: "center",
+    paddingVertical: 10,
+  },
+  headerTitle: {
+    fontSize: 20,
+    fontWeight: "500",
+  },
+  navBar: {
+    marginTop: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    //height: 50,
+    paddingBottom: 10,
+    borderBottomWidth: 0.5,
+    borderColor: "gray",
+  },
+  headerAvt: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    marginLeft: 10,
+  },
+  think: {
+    flexDirection: "row",
+    paddingVertical: 10,
+    justifyContent: "space-between",
+  },
+  textInput: {
+    borderWidth: 1,
+    borderRadius: 20,
+    width: screen.width * 0.84,
+    marginRight: 10,
+    paddingLeft: 20,
+    borderColor: colors.border,
+    color: "black",
+  },
+  media: {
+    flexDirection: "row",
+    paddingVertical: 10,
+    borderTopWidth: 0.5,
+    borderColor: "gray",
+  },
+  oneMedia: {
+    justifyContent: "center",
+    flexDirection: "row",
+    alignItems: "center",
+    width: screen.width * 0.33333,
+    borderRightWidth: 0.5,
+    borderColor: "gray",
+  },
+  feedItem: {
+    backgroundColor: "#FFF",
+    borderRadius: 5,
+    // padding: 8,
+    marginVertical: 10,
+  },
+  avatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    marginRight: 16,
+  },
+  headerNewfeed: {
+    flexDirection: "row",
+    marginTop: 10,
+    paddingHorizontal: 10,
+  },
+  leftNew: {
+    width: screen.width * 0.12,
+    height: screen.width * 0.12,
+    borderRadius: 18,
+    marginRight: 16,
+  },
+  rightNew: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  nameandTime: {
+    width: screen.width * 0.74,
+  },
+  name: {
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  timestamp: {
+    fontSize: 11,
+    color: "#C4C6CE",
+    marginTop: 4,
+  },
+  mainContentNew: {},
+  postContent: {
+    marginTop: 16,
+    fontSize: 14,
+    marginLeft: 10,
+    color: "black",
+  },
+  postImage: {
+    width: undefined,
+    height: 250,
+    marginVertical: 16,
+  },
+  numberLikeCmt:{
+    flexDirection: 'row',
+    justifyContent:'space-between'
+  },
+  likeComment: {
+    flexDirection: "row",
+    width: screen.width * 0.92,
+    height: 50,
+    borderTopWidth: 0.5,
+    borderBottomWidth: 0.5,
+    borderTopColor: colors.border,
+    borderBottomColor: colors.border,
+    marginHorizontal: screen.width * 0.04,
+    marginTop: 10
+  },
+  like: {
+    flexDirection: "row",
+    width: screen.width * 0.46,
+    alignSelf: "center",
+    justifyContent: "center",
+  },
+  comment: {
+    flexDirection: "row",
+    width: screen.width * 0.46,
+    alignSelf: "center",
+    justifyContent: "center",
+  },
+  textLikeCmt: {
+    color: "gray",
+    marginTop: 2,
+    fontSize: 16
+  },
+  likeCmtIcon: {
+    marginRight: 10,
+  },
+  yourNews: {
+    marginTop: 10,
+    backgroundColor: "white",
+    height: 230,
+    paddingHorizontal: 15,
+    paddingVertical: 15,
+  },
+  imgNew: {
+    width: 100,
+    height: 200,
+    marginRight: 7,
+    borderRadius: 10,
+  },
+});
+
+const mapStateToProps = state => {
+  const { auth, post } = state;
+  return { auth, post };
+}
+const mapActions = {
+  getAllPost: PostAction.getAllPost,
+  getPostByUser: PostAction.getPostByUser,
+  getProfile: AuthActions.getProfile,
+};
+
+let connected = connect(mapStateToProps, mapActions)(Profile);
+
+export { connected as Profile}

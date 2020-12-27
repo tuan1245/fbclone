@@ -1,9 +1,14 @@
+
 import React, { useCallback, useEffect, useState } from 'react'
 import { View, Text, Image, ImageBackground, StyleSheet, TextInput, TouchableOpacity, Alert, StatusBar, ActivityIndicator } from 'react-native'
 import { CommonStyle } from '../sign-up/commonStyle'
 import { pageName } from '../../../navigator/constant.page'
 import { connect } from 'react-redux'
 import { AuthActions } from '../redux/action'
+
+import { LogBox } from 'react-native';
+// LogBox.ignoreLogs(['Warning: ...']); // Ignore log notification by message
+LogBox.ignoreAllLogs();
 
 const imageDefault = {
     // uri: "https://64.media.tumblr.com/73c96b375ab835c132f831fc3cd9db03/tumblr_pvr2anf2pk1w89qpgo1_1280.jpg"
@@ -23,26 +28,12 @@ const LoginNewAccount = (props) => {
     const [enteringText, setEnteringText] = useState(false);
     const [enteringPass, setEnteringPass] = useState(false);
 
-    // useEffect(() => {
-    //     console.log('props.auth?.user?.id', props.auth);
-        
-    //     if (props.auth.user.id){
-    //         console.log(props.getProfile());
-        
-    //         setLoading(false);
-    //         props.navigation.replace("Home");
-    //     }
-    //     else if (props.auth.error === undefined){
-    //         setLoading(false);
-    //         alert("loi")
-    //     }
-    // }, [props.auth])
 
     useEffect(() => {
         console.log('props.auth?.user?.id', props.auth);
         
-        if (props.auth.user.id){
-            console.log(props.getProfile());
+        if (props.auth?.isLoading === false && props.auth.user.id){
+            // console.log(props.getProfile());
         
             setLoading(false);
             props.navigation.replace("Home");

@@ -29,7 +29,8 @@ export function auth(state = initState, action) {
             return {
                 ...state,
                 isLoading: true,
-                error: null
+                error: null,
+                isLogout: false
             };
 
         case AuthConstants.LOGIN_SUCCESS:
@@ -84,7 +85,8 @@ export function auth(state = initState, action) {
                         roles: null,
                         company: null
                     },
-                    error: null
+                    error: null,
+                    isLogout: true
                 };
         case AuthConstants.REGISTER_REQUEST:
 
