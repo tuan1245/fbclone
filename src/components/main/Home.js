@@ -15,6 +15,7 @@ import {
   StatusBar,
   RefreshControl,
   LogBox,
+  ActivityIndicator,
 } from "react-native";
 // import Fire from "../Fire";
 import {
@@ -73,7 +74,7 @@ const wait = (timeout) => {
 }
 
 
-const renderPost = (post) => {
+const renderPost = (post, props) => {
   var img = <Text></Text>
   if(post.image.length !== 0) {
     img =<Image
@@ -88,14 +89,14 @@ const renderPost = (post) => {
     <View style={styles.feedItem}>
       <View style={styles.headerNewfeed}>
         <Image
-          source={{uri: "https://fakebook-server.herokuapp.com/upload/avatars/user.jpg"}}
+          source={{uri: host + post.creator.avatar}}
           style={styles.leftNew}
         />
         <View style={styles.rightNew}>
           <TouchableOpacity style={styles.nameandTime} onPress={()=>alert("Go to profile")}>
             <Text style={styles.name}>{post.creator.name}</Text>
             <Text style={styles.timestamp}>
-              {/* {moment(post.timestamp).fromNow()} */}
+              {moment(post.created).fromNow()}
             </Text>
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>alert("Delete post")}>
@@ -122,7 +123,7 @@ const renderPost = (post) => {
           />
           <Text style={styles.textLikeCmt}>Like</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.comment} onPress={()=>alert("Comment")}>
+        <TouchableOpacity style={styles.comment} onPress={()=> props.navigation.push("Comment", {id: post._id})}>
           <Ionicons
             name="ios-chatboxes"
             size={24}
@@ -150,6 +151,7 @@ const Home = (props ) => {
       props.getAllPost();
   }, []);
 
+  // console.log(props.post)
   const onRefresh = React.useCallback(() => {
       setRefreshing(true);
       props.getAllPost();
@@ -162,6 +164,11 @@ const Home = (props ) => {
 
       });
   }, []);
+
+//   useEffect(() => {
+//     setPostLoading(true)
+// }, [props.post.isLoadingPost]);
+    
   // render() {
   //LayoutAnimation.easeInEaseOut()
 
@@ -195,9 +202,7 @@ const Home = (props ) => {
         <View style={styles.think}>
           <Image
             source={
-              // this.state.user.avatar
-              //   ? { uri: this.state.user.avatar }
-              require("../../public/img/assets/avatar.png")
+                 { uri:host + props.auth.user.avatar }
             }
             style={styles.headerAvt}
           />
@@ -236,11 +241,19 @@ const Home = (props ) => {
           horizontal={true}
         />
       </View>
-
+      {props.post.isLoadingPost &&
+                        <View style={{
+                                margin: 10, height: 50, flexDirection: "column", justifyContent: "center", alignItems: "center"
+                            }}
+                        >
+                            <ActivityIndicator size="large" color="#ccc" />
+                            <Text>Đang đăng bài...</Text>
+                        </View>
+                    }
       <FlatList
         style={styles.feed}
         data={props.post.listPost}
-        renderItem={({ item }) => renderPost(item)}
+        renderItem={({ item }) => renderPost(item, props)}
         keyExtractor={(item) => `${item.created}`}
         showsVerticalScrollIndicator={false}
       />
@@ -337,7 +350,8 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFF",
     borderRadius: 5,
     // padding: 8,
-    marginVertical: 10,
+    // marginVertical: 5,
+    marginTop: 10
   },
   avatar: {
     width: 36,
@@ -353,7 +367,7 @@ const styles = StyleSheet.create({
   leftNew: {
     width: screen.width * 0.12,
     height: screen.width * 0.12,
-    borderRadius: 18,
+    borderRadius: 50,
     marginRight: 16,
   },
   rightNew: {

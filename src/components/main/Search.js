@@ -1,10 +1,10 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { BackScreen } from "../components/BackScreen";
+import { BackScreen } from "../tmp/BackScreen";
 
 const Search = () => {
   return (
-    <View>
+    <View style = {{backgroundColor : 'White'}}>
       <BackScreen />
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Text>Search</Text>

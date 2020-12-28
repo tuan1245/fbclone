@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "fbclone",
-    "slug": "fbclone",
+    "name": "faceBok",
+    "slug": "faceBok",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./src/public/img/logo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.hust.faceBok"
     },
     "web": {
       "favicon": "./assets/favicon.png"

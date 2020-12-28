@@ -26,7 +26,7 @@ import { AuthActions } from "../auth/redux/action";
 const screen = Dimensions.get("window");
 
 
-
+const host = "https://fakebook-server.herokuapp.com"
 
 const Menu = (props) => {
   const onPressLogOut = (e) =>{
@@ -38,6 +38,7 @@ const Menu = (props) => {
 //   useEffect(() => {
 //     props.navigation.replace("Đăng nhập")
 // }, [props.auth.isLogout])
+console.log("nnn", props.profile)
 
 
   return (
@@ -60,11 +61,11 @@ const Menu = (props) => {
           onPress={() => props.navigation.push("Profile")}
         >
           <Image
-            source={require("../../public/img/assets/avatar.png")}
+            source={{uri: host + props.auth.user.avatar }}
             style={styles.avatar}
           />
           <View style={styles.textName}>
-            <Text style={styles.name}>Vuong</Text>
+            <Text style={styles.name}>{props.auth.user.name }</Text>
             <Text style={styles.clicktoProfile}>Xem trang cá nhân của bạn</Text>
           </View>
         </TouchableOpacity>
@@ -180,6 +181,7 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     marginLeft: 20,
+    borderRadius: 50,
   },
   textName: {
     marginLeft: 15,
@@ -199,7 +201,8 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   leftContents: {
-    padding: 10,
+    // padding: 10,
+    marginLeft: 10
   },
   rightContents: {
     marginRight: 10,
@@ -257,8 +260,8 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => {
-  const { auth } = state;
-  return { auth };
+  const { auth, profile } = state;
+  return { auth, profile };
 }
 const mapActions = {
   logout: AuthActions.logout,

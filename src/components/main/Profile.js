@@ -1,4 +1,5 @@
 import React, { Component ,useEffect} from "react";
+import mime from "mime";
 import {
   View,
   Text,
@@ -18,8 +19,11 @@ import { ScrollView } from "react-native-gesture-handler";
 import { OneFriend } from "../tmp/OneFriend";
 import {BackScreen} from "../tmp/BackScreen";
 import { PostAction } from '../post/redux/action';
+import { ProfileAction } from '../profile/redux/action';
 import { connect } from 'react-redux'
 import { AuthActions } from "../auth/redux/action";
+import { useState } from "react";
+import * as ImagePicker from 'expo-image-picker';
 
 const screen = Dimensions.get("window");
 data = [
@@ -35,11 +39,16 @@ const Profile  = (props) => {
   const host = "https://fakebook-server.herokuapp.com"
   const imgDefault = "../../public/img/assets/avatar.png"
 
+  const [imageAvatar, setImageAvatar] = useState(host + props.auth.profile.avatar)
+
+  var imgForm = {}
   useEffect(() => {
-      props.getProfile()
+      // props.getProfile()
       props.getPostByUser(props.auth.user.id)
 }, [])
-
+// console.log(props.auth)
+// var tmp = props.auth.profile.avatar
+// // setImageAvatar(host + tmp)
 
   const renderFriend = (friend) => {
     return (
@@ -47,6 +56,38 @@ const Profile  = (props) => {
         <OneFriend item={friend} onPress={() => alert("One Friend")} />
       </View>
     );
+  };
+
+  const changeAva = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+    });
+
+    
+
+    if (!result.cancelled) {
+      console.log(result);
+      const newImageUri =  "file:///" + result.uri.split("file:/").join("");
+
+            imgForm = {
+                uri: newImageUri,
+                type: mime.getType(newImageUri),
+                name: newImageUri.split("/").pop()
+            };
+
+      let userId =  props.auth.user.id
+      setImageAvatar(newImageUri);
+      let data = new FormData()
+      data.append('described', props.auth.user.name + " đã thay đổi ảnh đại diện")
+      data.append('avatar', imgForm)
+      data.append('id', userId)
+
+
+      
+      // setImageAvatar(newImageUri)
+      props.changeAvatar(data, userId)
+      props.getProfile()
+    }
   };
 
   const renderPost = (post) => {
@@ -124,7 +165,9 @@ const Profile  = (props) => {
             <Image
               style={styles.avatar}
               source={
-            require("../../public/img/assets/avatar.png")
+                // {uri: host + props.auth.profile.avatar}
+                {uri: imageAvatar}
+            // require("../../public/img/assets/avatar.png")
               }
             />
             <Entypo
@@ -132,7 +175,7 @@ const Profile  = (props) => {
               size={20}
               color="black"
               style={styles.icon}
-              onPress={() => alert("Change avatar")}
+              onPress={changeAva}
             />
           </View>
           <Text style={styles.name}>{props.auth.profile.name}</Text>
@@ -182,7 +225,7 @@ const Profile  = (props) => {
             <View style={styles.oneInfor}>
               <Entypo name="dots-three-horizontal" size={24} color="gray" />
               <Text style={styles.textInfor}>
-                Xem thêm thông tin giới thiệu của Mỹ Linh
+                Xem thêm thông tin giới thiệu của {props.auth.profile.name}
               </Text>
             </View>
           </View>
@@ -233,12 +276,7 @@ const Profile  = (props) => {
             showsVerticalScrollIndicator={false}
           />
         </ScrollView>
-        <TouchableOpacity
-          style={styles.button}
-          // onPress={() => Fire.shared.signOut()}
-        >
-          <Text style={{ color: "grey", fontWeight: "500" }}>Log out</Text>
-        </TouchableOpacity>
+
       </ScrollView>
     );
   }
@@ -564,6 +602,7 @@ const mapActions = {
   getAllPost: PostAction.getAllPost,
   getPostByUser: PostAction.getPostByUser,
   getProfile: AuthActions.getProfile,
+  changeAvatar: ProfileAction.changeAvatar,
 };
 
 let connected = connect(mapStateToProps, mapActions)(Profile);

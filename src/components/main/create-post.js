@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 // import * as ImagePicker from 'react-native-image-picker';
 import * as ImagePicker from 'expo-image-picker';
 import { connect } from 'react-redux';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+// import Ionicons from 'react-native-vector-icons/Ionicons';
 import Icon3 from 'react-native-vector-icons/AntDesign';
 import Icon5 from 'react-native-vector-icons/FontAwesome5';
 import { pageName } from '../../navigator/constant.page'
@@ -21,6 +21,7 @@ import { pageName } from '../../navigator/constant.page'
 import Emoji from 'react-native-emoji';
 //import { Draft } from './draft';
 import { PostAction } from '../post/redux/action';
+import { Ionicons,AntDesign } from "@expo/vector-icons";
 
 // Calculate window size
 const WIDTH = Dimensions.get('window').width;
@@ -65,9 +66,9 @@ const CreatePost = (props) => {
             let data = new FormData();
 
             data.append('described', text);
-            for (let i in images) {
-                data.append('post', images[i]);
-            }
+            //for (let i in images) {
+                data.append('post', images[0]);
+           // }
             console.log('dataaa', data)
             props.post(data);
             // props.getAllPost();
@@ -117,7 +118,7 @@ const CreatePost = (props) => {
             <View >
                 <TouchableOpacity style={{ flexDirection: 'row' }}>
                     <Icon name="video-camera" style={styles.icon_create_room}></Icon>
-                    <Text style={{ fontSize: 22, }}>Tạo phòng họp mặt</Text>
+                    <Text style={{ fontSize: 16, fontWeight:'700' }}>Tạo phòng họp mặt</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.lineStyle} />
@@ -126,7 +127,7 @@ const CreatePost = (props) => {
             >
                 <TouchableOpacity style={{ flexDirection: 'row' }} onPress={pickImage}>
                     <Icon name="image" style={styles.icon_create_room}></Icon>
-                    <Text style={{ fontSize: 22, }}>Ảnh/Video</Text>
+                    <Text style={{ fontSize: 16, fontWeight:'700' }}>Ảnh/Video</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.lineStyle} />
@@ -135,7 +136,7 @@ const CreatePost = (props) => {
             >
                 <TouchableOpacity style={{ flexDirection: 'row' }} onPress={onPressFeeling}>
                     <Icon name="smile-o" style={styles.icon_create_room}></Icon>
-                    <Text style={{ fontSize: 22, }}>Cảm xúc/Hoạt động</Text>
+                    <Text style={{ fontSize: 16, fontWeight:'700' }}>Cảm xúc/Hoạt động</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.lineStyle} />
@@ -144,7 +145,7 @@ const CreatePost = (props) => {
             >
                 <TouchableOpacity style={{ flexDirection: 'row' }}>
                     <Icon name="check-circle" style={styles.icon_create_room}></Icon>
-                    <Text style={{ fontSize: 22, }}>Check in</Text>
+                    <Text style={{ fontSize: 16, fontWeight:'700' }}>Check in</Text>
                 </TouchableOpacity>
             </View>
             <View style={styles.lineStyle} />
@@ -153,7 +154,7 @@ const CreatePost = (props) => {
             >
                 <TouchableOpacity style={{ flexDirection: 'row' }}>
                     <Icon name="file-video-o" style={styles.icon_create_room}></Icon>
-                    <Text style={{ fontSize: 22, }}>Video trực tiếp</Text>
+                    <Text style={{ fontSize: 16, fontWeight:'700' }}>Video trực tiếp</Text>
                 </TouchableOpacity>
             </View>
         </View>
@@ -252,10 +253,11 @@ const CreatePost = (props) => {
                                 }}
                             >
                                 {/* <Ionicons name="close" color="red" size={24} /> */}
+                                <AntDesign name="closecircleo" size={24} color="#cc0000" />
                             </TouchableOpacity>
                         </View>
                     </View>
-                    <View style={styles.gridImagesViewView}>
+                    {/* <View style={styles.gridImagesViewView}>
                         {images[1] ? (
                             <>
                                 <Image
@@ -334,7 +336,7 @@ const CreatePost = (props) => {
                                     style={styles.gridImagesImage}
                                 />
                             )}
-                    </View>
+                    </View> */}
                 </View>
             </View>
         );
@@ -392,9 +394,9 @@ const newImageUri =  "file:///" + myResponse.uri.split("file:/").join("");
             ],
         }, (response) => {
             if (response.customButton) {
-                if (images.length >= 4) {
+                if (images.length >= 1) {
                     // eslint-disable-next-line no-alert
-                    alert('Hệ thống cho phép đăng tải tối đa 4 ảnh!');
+                    alert('Hệ thống cho phép đăng tải tối đa 1 ảnh!');
                     return;
                 }
                 if (mediaStatus === 'video') {
@@ -542,27 +544,27 @@ const newImageUri =  "file:///" + myResponse.uri.split("file:/").join("");
                     <View style={{}}>
                         <View style={{ flexDirection: "row" }}>
                             <Text style={{ fontWeight: 'bold', }}>{props.auth?.profile?.name}</Text>
-                            <View style={{ flexDirection: "row" }}>
+                            {/* <View style={{ flexDirection: "row" }}>
                                 {feeling.title ?
                                     <Text> - Đang</Text> : <></>}
                                 <Emoji name={feeling.icon ? feeling.icon : "kissing_heart"} style={{ fontSize: 20 }} />
                                 {feeling.title ?
                                     <Text>{feeling.type === 1 ? "Cảm thấy" : ""}</Text> : <></>}
-                            </View>
+                            </View> */}
                         </View>
-                        <Text style={{ fontWeight: "bold" }}>{feeling.title}</Text>
+                        {/* <Text style={{ fontWeight: "bold" }}>{feeling.title}</Text> */}
                     </View>
-                    <View style={{ flexDirection: "row" }}>
+                    <View style={{ flexDirection: "row" , marginTop: 10}}>
                         {/* <TouchableOpacity
                             style={{ height: 25, width: 80, borderRadius: 10, alignItems: "center", borderColor: `#a9a9a9` }}
-                        >
+                        > */}
                             <Text style={{ fontWeight: "bold", color: `#a9a9a9`, }}>Công khai</Text>
-                        </TouchableOpacity>
+                        {/* </TouchableOpacity> */}
                         <TouchableOpacity
                             style={{ height: 25, width: 80, borderRadius: 10, alignItems: "center", marginLeft: 10, }}
                         >
                             <Text style={{ fontWeight: "bold", color: `#a9a9a9` }}>+Album</Text>
-                        </TouchableOpacity> */}
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -640,6 +642,7 @@ const styles = StyleSheet.create({
         // justifyContent: "center",
         // alignItems: "center",
         backgroundColor: "#fff",
+        marginLeft: 10
 
     },
 
@@ -652,7 +655,7 @@ const styles = StyleSheet.create({
     name: {
         marginLeft: 10,
         marginTop: 10,
-        flexDirection: 'row',
+        //flexDirection: 'row',
         // backgroundColor: ,
     },
     p2: {
@@ -667,8 +670,10 @@ const styles = StyleSheet.create({
         backgroundColor: "#fff",
     },
     input: {
-        fontSize: 25,
+        fontSize: 22,
         // backgroundColor: "blue",
+        paddingLeft: 10,
+        color:'gray'
     },
     img: {
         //  backgroundColor: "red",
@@ -677,7 +682,7 @@ const styles = StyleSheet.create({
 
     },
     icon_create_room: {
-        color: `#6495ed`,
+        color: `#ffb366`,
         fontSize: 20,
         textAlignVertical: "center",
         marginRight: 10,
@@ -698,7 +703,7 @@ const styles = StyleSheet.create({
 
     lineStyle: {
         borderWidth: 0.5,
-        borderColor: 'black',
+        borderColor: 'gray',
         marginTop: 10,
     },
     delete: {
@@ -723,7 +728,7 @@ const styles = StyleSheet.create({
         padding: 3,
     },
     gridImagesImage: {
-        height: windowWidth / 2 - 6,
+        height: windowWidth,
         resizeMode: 'cover',
         width: '100%',
     },

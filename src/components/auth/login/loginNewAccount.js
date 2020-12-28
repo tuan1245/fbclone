@@ -15,7 +15,8 @@ const imageDefault = {
     src: require('./../../../public/img/assets/logo.png')
 }
 const imageResize = {
-    uri: "http://nutrientsmdvn.com/image/catalog/nutrient/facebook.png"
+    src: require('./../../../public/img/assets/logo_fb.jpg')
+    
     // uri: "./fb_reg.png"
 }
 
@@ -29,11 +30,28 @@ const LoginNewAccount = (props) => {
     const [enteringPass, setEnteringPass] = useState(false);
 
 
+    // var userId, token;
+    // const useEffectAsync = (effect, inputs) => {
+    //     useEffect(() => {
+    //         effect();
+    //     }, inputs);
+    // }
+    // useEffectAsync( async () => {
+    //     userId = await getData('userId');
+    //     token = await getData('auth-token');
+    //     console.log('userId', userId);
+    //     console.log('auth-token', token);
+    //     if(userId) {
+    //         props.getProfile();
+    //         props.navigation.replace("Home");
+    //     }
+    // }, [])
+
     useEffect(() => {
         console.log('props.auth?.user?.id', props.auth);
         
         if (props.auth?.isLoading === false && props.auth.user.id){
-            // console.log(props.getProfile());
+            props.getProfile();
         
             setLoading(false);
             props.navigation.replace("Home");
@@ -114,7 +132,7 @@ const LoginNewAccount = (props) => {
                         style={CommonStyle.submitBtn}
                         onPress={(e) => onPressLogin(e)}
                     >
-                        <Text style={[CommonStyle.mediumText, { color: "#8DB0EB" }]}>Đăng nhập</Text>
+                        <Text style={[CommonStyle.mediumText, { color: "#FFF" }]}>Đăng nhập</Text>
                     </TouchableOpacity>
                     {loading === true &&
                         <View style={{

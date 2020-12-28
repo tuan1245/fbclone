@@ -503,15 +503,15 @@ const CreatePost = (props) => {
                 />
                 <View style={styles.name}>
                     <View style={{}}>
-                        <View style={{ flexDirection: "row" }}>
+                        <View style={{ flexDirection: "row", paddingLeft:10 }}>
                             <Text style={{ fontWeight: 'bold', }}>{props.auth?.profile?.name}</Text>
-                            <View style={{ flexDirection: "row" }}>
+                            {/* <View style={{ flexDirection: "row" }}>
                                 {feeling.title ?
                                     <Text> - Đang</Text> : <></>}
                                 <Emoji name={feeling.icon ? feeling.icon : "kissing_heart"} style={{ fontSize: 20 }} />
                                 {feeling.title ?
                                     <Text>{feeling.type === 1 ? "Cảm thấy" : ""}</Text> : <></>}
-                            </View>
+                            </View> */}
                         </View>
                         <Text style={{ fontWeight: "bold" }}>{feeling.title}</Text>
                     </View>
@@ -631,6 +631,7 @@ const styles = StyleSheet.create({
     },
     input: {
         fontSize: 25,
+        paddingLeft: 20
         // backgroundColor: "blue",
     },
     img: {

@@ -37,7 +37,7 @@ export const NavBar = () => {
       <TouchableOpacity onPress={() => navigation.push("Home")}>
         <AntDesign
           name="home"
-          size={24}
+          size={28}
           color="gray"
           style={{ marginLeft: 15 }}
         />
@@ -48,21 +48,21 @@ export const NavBar = () => {
           size={24}
           color="gray"
         /> */}
-        <MaterialIcons name="people-outline" size={26} color="gray" />
+        <MaterialIcons name="people-outline" size={33} color="gray" />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.push("Noti")}>
-        <Ionicons name="ios-notifications-outline" size={24} color="gray" />
+        <Ionicons name="ios-notifications-outline" size={33} color="gray" />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => alert("Tinder")}>
-        <Entypo name="heart-outlined" size={24} color="gray" />
+      <TouchableOpacity onPress={() => navigation.push("Tinder")}>
+        <Entypo name="heart-outlined" size={30} color="gray" />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => alert("Watch")}>
-        <MaterialIcons name="live-tv" size={24} color="gray" />
+      <TouchableOpacity onPress={() => navigation.push("Watch")}>
+        <MaterialIcons name="live-tv" size={28} color="gray" />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.push("Menu")}>
         <Feather
           name="menu"
-          size={24}
+          size={28}
           color="gray"
           style={{ marginRight: 15 }}
         />

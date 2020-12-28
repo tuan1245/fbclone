@@ -127,8 +127,8 @@ const SignUp = (props) => {
           >
             <Image
               source={
-                { uri: imageAvatar }
-                // require("../../public/img/assets/avatar.png")
+                // { uri: imageAvatar }
+                {uri: "https://fakebook-server.herokuapp.com/upload/avatars/user.jpg"}
               }
               style={styles.avatar}
             />
